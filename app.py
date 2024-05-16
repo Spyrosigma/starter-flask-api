@@ -1,37 +1,59 @@
 from flask import Flask, request, jsonify
+from dotenv import load_dotenv
+import os
+from supabase import create_client
 from flask_cors import CORS, cross_origin
 
+load_dotenv()
+
 app = Flask(__name__)
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(app)
 
+url = os.environ.get('SUPABASE_URL')
+key = os.environ.get('SUPABASE_KEY')
 
-DATA_FILE = 'data.csv'
+supabase = create_client(url, key)
+
+cross_origin()
 @app.route('/api', methods=['POST'])
-@cross_origin()
-def store_data():
-    try:
-        if request.is_json:
-            data = request.get_json()
-            if not ('user_email' in data and 'Hiscore' in data):
-                return jsonify({'error': 'Missing required keys: user_email, Hiscore'}), 400
-                
-            username = data['user_email']
-            high_score = data['Hiscore']
-            
-            with open(DATA_FILE, 'a') as f:
-                f.write(f"{username},{high_score}\n")
+def save_data():
+    data = request.json
+    user_email = data.get('user_email')
+    Hiscore = data.get('Hiscore')
 
-            return jsonify({'message': 'Data stored successfully!'}), 201
-        else:
-            return jsonify({'error': 'Request content type must be application/json'}), 415
-    except Exception as e:
-        print(f"Error storing data: {e}")
-        return jsonify({'error': 'An error occurred while storing data..'}), 500
-    
+    userdata = {"user_email": user_email, "Hiscore": Hiscore}
+    data = supabase.table("demo").insert(userdata).execute()
+
+    if data is None:
+        return jsonify({"message": "Failed to save data"}), 500
+    else:
+        return jsonify({"message": "Data saved successfully"}), 201
+
+
+cross_origin()
 @app.route('/')
-def index():
-    return ('<h1 style="color:red; text-align:center; align-items:center;">  &hearts; </h1>')
+def home():
+    return ('''
+            <img src="/static/logo.png" alt="GFG" style="width: 50%; height: auto; display: block;
+      margin: 200px auto;">
+        
+            <footer style="position: absolute;
+            bottom: 0;
+            width: 99vw;
+            background-color: #333;
+            color: #fff;          
+            text-align: center;"> 
+            Made with &hearts; by NAMDEV </footer>
+            ''')
+    
+cross_origin
+@app.route('/api')
+def api():
+    return ('''
+        <h1 style="font-size:50px;"> Kya be? apna kaam kr na !</h1>
+    ''')
 
-# if __name__ == '__main__':
-#     app.run(debug=True)  
+if __name__ == '__main__':
+    app.run(debug=True)
+
+    
