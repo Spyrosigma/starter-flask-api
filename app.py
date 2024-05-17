@@ -9,11 +9,8 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-SUPABASE_URL="https://mqndegrgjyzcblmuhzga.supabase.co"
-SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xbmRlZ3Jnanl6Y2JsbXVoemdhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU4Nzg3MDEsImV4cCI6MjAzMTQ1NDcwMX0.6k-mTN-1f5rCvY4ZBY5srMyavezfr899KWZwU8geRbI"
-
-# url = os.environ.get('SUPABASE_URL')
-# key = os.environ.get('SUPABASE_KEY')
+SUPABASE_URL = os.environ.get('SUPABASE_URL')
+SUPABASE_KEY = os.environ.get('SUPABASE_KEY')
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
@@ -56,7 +53,7 @@ def api():
         <h1 style="font-size:50px;"> Kya be? apna kaam kr na !</h1>
     ''')
 
-# if __name__ == '__main__':
-#     app.run(debug=False)
+if __name__ == '__main__':
+    app.run(debug=True)
 
     
