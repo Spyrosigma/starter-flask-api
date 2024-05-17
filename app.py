@@ -34,12 +34,18 @@ cross_origin()
 @app.route('/')
 def home():
     return ('''
-            <img src="/static/logo.png" alt="GFG" style="width: 20%; height: auto; display: block;
-      margin: 25px auto;">
-
-            <img src="/static/GFG.png" alt="GFG" style="width: 80%; height: auto; display: block;
-      margin: 10px auto;">
-
+            <img src="/static/logo.png" alt="GFG" style="width: 80%; height: auto; display: block;
+      margin: 200px auto;">
+        
+            <footer style="position: absolute;
+            bottom: 0;
+            width: 99vw;
+        
+            color: green;       
+            font-size:5vh;
+            padding: 10px 0px 10px 0px;   
+            text-align: center;"> 
+            Made with <span style="color:red;"> &hearts; </span> ~ NAMDEV </footer>
             ''')
     
 cross_origin
